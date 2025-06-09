@@ -2,7 +2,6 @@ package com.censorcell.updater;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.json.JSONObject;
 
@@ -42,23 +41,30 @@ public class UpdateChecker implements Runnable {
                 JSONObject json = new JSONObject(response);
                 String latestVersion = json.getString("tag_name");
                 
-                // Compare GitHub release version with the plugin version in plugin.yml.
+                // Retrieve the current version from plugin.yml.
                 String currentVersion = plugin.getDescription().getVersion();
                 if (!currentVersion.equalsIgnoreCase(latestVersion)) {
                     String updateMessage = "A new update is available: " + latestVersion +
                             " (current: " + currentVersion + "). Download at: " + repoLink;
                     
-                    // Log to console.
+                    // Log update to console.
                     plugin.getLogger().info(updateMessage);
                     
-                    // Notify online admins on the main thread.
+                    // On the main thread, store the update message in the plugin so that UpdateListener will use it.
                     Bukkit.getScheduler().runTask(plugin, () -> {
-                        for (Player player : Bukkit.getOnlinePlayers()) {
+                        if (plugin instanceof com.censorcell.CensorCell) {
+                            com.censorcell.CensorCell censorCellPlugin = (com.censorcell.CensorCell) plugin;
+                            censorCellPlugin.setUpdateNotification(ChatColor.GREEN + "[CensorCell Update] " +
+                                    ChatColor.RED + updateMessage);
+                        }
+                        
+                        // Optional: If admins are already online, notify them immediately.
+                        Bukkit.getOnlinePlayers().forEach(player -> {
                             if (player.isOp() || player.hasPermission("censorcell.admin")) {
                                 player.sendMessage(ChatColor.GREEN + "[CensorCell Update] " +
                                         ChatColor.RED + updateMessage);
                             }
-                        }
+                        });
                     });
                 } else {
                     plugin.getLogger().info("Plugin is up to date (version " + currentVersion + ").");
