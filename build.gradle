@@ -1,6 +1,9 @@
 plugins {
     id 'java'
+    id 'com.github.johnrengelman.shadow' version '7.1.2'
 }
+
+version = '1.0'
 
 java {
     toolchain {
@@ -37,4 +40,12 @@ tasks.withType(JavaCompile).configureEach {
 jar {
     archiveBaseName.set('CensorCell')
     archiveVersion.set('1.0')
+}
+
+shadowJar {
+    archiveClassifier.set('') // Remove the -all classifier.
+    archiveBaseName.set('censorcell')  // Set the base name.
+    archiveVersion.set(project.version) // Append the project version.
+    // Alternatively, you can define the full file name:
+    // archiveFileName.set("censorcell-${project.version}.jar")
 }
