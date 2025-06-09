@@ -1,0 +1,34 @@
+name: CensorCell
+version: 1.0
+main: com.censorcell.CensorCell
+api-version: 1.20
+author: Ashlynn
+description: A chat filter and jail enforcement plugin for Minecraft 1.21.
+depend: [Essentials]
+commands:
+  jail:
+    description: Sends a player to a preset jail.
+    usage: /jail <player>
+    permission: censorcell.jail
+  unjail:
+    description: Releases a jailed player.
+    usage: /unjail <player>
+    permission: censorcell.unjail
+  censorcell:
+    description: Main command for CensorCell.
+    usage: /censorcell <reload|about|unmute>
+    aliases: [cc]
+    permission: censorcell.use
+permissions:
+  censorcell.jail:
+    description: Allows a player to use /jail.
+    default: op
+  censorcell.unjail:
+    description: Allows a player to use /unjail.
+    default: op
+  censorcell.use:
+    description: Allows use of the /censorcell command.
+    default: op
+  censorcell.admin:
+    description: "Grants immunity from censorship and punishment actions (spam, mute, jail, etc.)."
+    default: op

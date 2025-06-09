@@ -1,0 +1,24 @@
+banned-words:
+  - badword1
+  - badword2
+  - badword3
+
+# If true, players who kill others are jailed automatically
+auto-jail-on-kill: true
+
+# Mute settings
+mute-duration: 10 # Mute time in minutes
+kick-on-mute: true # If true, player gets kicked after mute
+
+# Spam detection settings
+spam:
+  cooldown: 300         # Time window in seconds (300 sec = 5 minutes)
+  max: 3                # Allowed repeats of the same message within the cooldown
+  kick-message: "You were kicked for spamming."
+
+messages:
+  mute: "§cYou have been muted for {minutes} minutes due to inappropriate language!"
+  unmute: "§aYour mute has been removed by an admin."
+  kick: "§cYou were kicked for violating chat rules!"
+  jail: "§cYou have been jailed for killing another player!"
+  unjail: "You have been released from jail."
