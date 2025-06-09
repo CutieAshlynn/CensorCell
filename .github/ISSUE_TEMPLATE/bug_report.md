@@ -1,14 +1,14 @@
 ---
 name: Bug report
-about: Create a report to help us improve
+about: Report a Bug or a Issue
 title: ''
-labels: ''
+labels: bug
 assignees: ''
 
 ---
 
 **Describe the bug**
-A clear and concise description of what the bug is.
+Please describe the Bug or Issues your having with as much detail as possible.
 
 **To Reproduce**
 Steps to reproduce the behavior:
@@ -23,16 +23,11 @@ A clear and concise description of what you expected to happen.
 **Screenshots**
 If applicable, add screenshots to help explain your problem.
 
-**Desktop (please complete the following information):**
- - OS: [e.g. iOS]
- - Browser [e.g. chrome, safari]
- - Version [e.g. 22]
+Please Fill out the following.
+Plugin Version:
+Server Version:
 
-**Smartphone (please complete the following information):**
- - Device: [e.g. iPhone6]
- - OS: [e.g. iOS8.1]
- - Browser [e.g. stock browser, safari]
- - Version [e.g. 22]
+Attach any logs below. (Do not Copy & Paste) Use https://pastebin.com/ And paste the link below.
 
 **Additional context**
 Add any other context about the problem here.
