@@ -31,11 +31,13 @@ public class CensorCellCommand implements CommandExecutor, TabCompleter {
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
+        // Make sure at least one subcommand is provided.
         if (args.length < 1) {
-            sender.sendMessage("§cUsage: /" + label + " <reload|about|unmute|unjail|addjail|removejail>");
+            sender.sendMessage("§cUsage: /" + label + " <reload|about|unmute|unjail|addjail|removejail|list>");
             return true;
         }
         String sub = args[0].toLowerCase();
+
         if (sub.equals("reload")) {
             plugin.reloadConfig();
             jailsManager.reloadJails();
@@ -98,10 +100,8 @@ public class CensorCellCommand implements CommandExecutor, TabCompleter {
                 sender.sendMessage("§cPlayer not found.");
                 return true;
             }
-            // This unjail command does NOT teleport the player.
-            // It simply sets them back to Survival mode.
+            // Unjail command sets the player back to Survival mode.
             target.setGameMode(GameMode.SURVIVAL);
-            // Retrieve unjail message from config (with a default if missing)
             String unjailMessage = plugin.getPluginConfig().getString(
                     "messages.unjail",
                     "You have been released from jail. Welcome back to Survival!"
@@ -109,23 +109,41 @@ public class CensorCellCommand implements CommandExecutor, TabCompleter {
             sender.sendMessage("§a" + target.getName() + " has been unjailed (set to Survival mode).");
             target.sendMessage(unjailMessage);
             return true;
+        } else if (sub.equals("list")) {
+            // Handle the "list" subcommand.
+            if (args.length != 2 || !args[1].equalsIgnoreCase("jails")) {
+                sender.sendMessage("§cUsage: /" + label + " list jails");
+                return true;
+            }
+            // List all jails from jails.yml.
+            Set<String> jailNames = jailsManager.getJails().keySet();
+            if (jailNames.isEmpty()) {
+                sender.sendMessage("§cNo jails found.");
+            } else {
+                sender.sendMessage("§aJails:");
+                for (String jail : jailNames) {
+                    sender.sendMessage(" - " + jail);
+                }
+            }
+            return true;
         }
-        sender.sendMessage("§cUnknown subcommand. Available: reload, about, unmute, unjail, addjail, removejail.");
+
+        sender.sendMessage("§cUnknown subcommand. Available: reload, about, unmute, unjail, addjail, removejail, list");
         return true;
     }
 
     @Override
     public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
-        // If the admin is typing the subcommand.
+        // Provide tab completion for the first argument.
         if (args.length == 1) {
             List<String> subs = new ArrayList<>();
-            Collections.addAll(subs, "reload", "about", "unmute", "unjail", "addjail", "removejail");
+            Collections.addAll(subs, "reload", "about", "unmute", "unjail", "addjail", "removejail", "list");
             String current = args[0].toLowerCase();
             return subs.stream()
                     .filter(s -> s.startsWith(current))
                     .collect(Collectors.toList());
         }
-        // If the admin is typing the second argument.
+        // Provide tab completion for the second argument.
         if (args.length == 2) {
             String sub = args[0].toLowerCase();
             if (sub.equals("unmute") || sub.equals("unjail")) {
@@ -137,11 +155,15 @@ public class CensorCellCommand implements CommandExecutor, TabCompleter {
                 }
                 return names;
             } else if (sub.equals("removejail")) {
-                // Return a list of jail names directly from the jailsManager from jails.yml
                 Set<String> jailNames = jailsManager.getJails().keySet();
                 return jailNames.stream()
                         .filter(name -> name.toLowerCase().startsWith(args[1].toLowerCase()))
                         .collect(Collectors.toList());
+            } else if (sub.equals("list")) {
+                // For the "list" subcommand, only "jails" is allowed.
+                if ("jails".startsWith(args[1].toLowerCase())) {
+                    return Collections.singletonList("jails");
+                }
             }
         }
         return new ArrayList<>();
