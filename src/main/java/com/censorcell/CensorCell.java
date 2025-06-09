@@ -5,15 +5,19 @@ import com.censorcell.listeners.ChatListener;
 import com.censorcell.listeners.KillListener;
 import com.censorcell.managers.JailsManager;
 import com.censorcell.updater.UpdateChecker;
+import com.censorcell.updater.UpdateListener;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
+
 import java.io.File;
 import java.io.InputStreamReader;
 
 public class CensorCell extends JavaPlugin {
 
     private JailsManager jailsManager;
+    // Store the update notification message (if an update is available)
+    private String updateNotification = null;
 
     @Override
     public void onEnable() {
@@ -41,6 +45,10 @@ public class CensorCell extends JavaPlugin {
         CensorCellCommand mainCmd = new CensorCellCommand(this, chatListener, jailsManager);
         getCommand("censorcell").setExecutor(mainCmd);
         getCommand("censorcell").setTabCompleter(mainCmd);
+
+        // Register the update notifier listener.
+        // This listener will send update notifications to admins when they join.
+        getServer().getPluginManager().registerEvents(new UpdateListener(this), this);
 
         getLogger().info("CensorCell is active!");
 
@@ -78,5 +86,25 @@ public class CensorCell extends JavaPlugin {
         config.options().copyDefaults(true);
         saveConfig();
         getLogger().info("Config file has been merged with defaults.");
+    }
+    
+    // --- Update Notification Methods ---
+    
+    /**
+     * Sets the update notification message.
+     *
+     * @param message the update message to notify admins with.
+     */
+    public void setUpdateNotification(String message) {
+        this.updateNotification = message;
+    }
+    
+    /**
+     * Retrieves the update notification message.
+     *
+     * @return the update notification message, or null if none is set.
+     */
+    public String getUpdateNotification() {
+        return updateNotification;
     }
 }
