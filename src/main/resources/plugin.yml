@@ -4,7 +4,7 @@ main: com.censorcell.CensorCell
 api-version: 1.20
 author: CutieAshlynn
 description: A chat filter and jail enforcement plugin for Minecraft 1.21.
-depend: [Essentials]
+softdepend: [Essentials]
 commands:
   jail:
     description: Sends a player to a preset jail.
