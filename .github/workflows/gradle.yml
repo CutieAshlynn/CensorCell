@@ -20,7 +20,7 @@ jobs:
         run: ./gradlew shadowJar
 
       - name: Upload JAR as Artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: my-plugin-shadow
           path: build/libs/*-all.jar
