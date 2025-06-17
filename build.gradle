@@ -3,7 +3,7 @@ plugins {
     id 'com.github.johnrengelman.shadow' version '7.1.2'
 }
 
-version = '1.0'
+version = '1.0.2'
 
 java {
     toolchain {
@@ -39,7 +39,7 @@ tasks.withType(JavaCompile).configureEach {
 
 jar {
     archiveBaseName.set('CensorCell')
-    archiveVersion.set('1.0')
+    archiveVersion.set('1.0.2')
 }
 
 shadowJar {
