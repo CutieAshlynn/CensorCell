@@ -52,10 +52,15 @@ public class CensorCell extends JavaPlugin {
 
         getLogger().info("CensorCell is active!");
 
-        // Schedule the update checker asynchronously.
-        // Replace "YourGitHubUsername" and "YourRepoName" with your GitHub repository details.
-        getServer().getScheduler().runTaskAsynchronously(this,
-                new UpdateChecker(this, "CutieAshlynn", "CensorCell"));
+        // ─── SCHEDULE UPDATE CHECKER ────────────────────────────────────────────
+        // Runs immediately (0 tick delay) and then every 4 hours:
+        long period = 20L * 60 * 60 * 4;  // 20 ticks × 60 sec × 60 min × 4 hrs
+        getServer().getScheduler().runTaskTimerAsynchronously(
+            this,
+            new UpdateChecker(this, "CutieAshlynn", "CensorCell"),
+            0L,      // initial delay (run on startup)
+            period   // repeat interval
+        );
     }
 
     @Override
