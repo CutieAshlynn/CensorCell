@@ -1,7 +1,7 @@
 CensorCell – Advanced Chat Moderation & Jail System
 
-New update on the plugin status.
-The plugin is now back in active Development and v1.0.3 is now being worked on!
+CensorCell is no longer under active development or support. 
+The plugin remains available as-is for existing users, but no future updates or bug fixes will be provided.
 
 CensorCell is a powerful yet configurable chat moderation plugin designed for Minecraft servers. This plugin helps maintain a fair and controlled chat environment while offering custom mute durations, automatic player jailing, and advanced spam protection.
 
